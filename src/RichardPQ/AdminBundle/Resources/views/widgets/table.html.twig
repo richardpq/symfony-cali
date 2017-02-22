@@ -1,0 +1,41 @@
+<table id="{{ tableId }}" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            {% for item in headers %}
+                <th> {{ item }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for details in data %}
+            <tr>
+                {% for property in headers %}
+                    <td>{{ attribute(details, property) }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+
+    <tfoot>
+        <tr>
+            {% for item in headers %}
+                <th> {{ item }}</th>
+            {% endfor %}
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(function () {
+
+        $('#{{ tableId }}').DataTable({
+            "paging": {{ functionScript.paging }},
+            "lengthChange": {{ functionScript.lengthChange }},
+            "searching": {{ functionScript.searching }},
+            "ordering": {{ functionScript.ordering }},
+            "info": {{ functionScript.info }},
+            "autoWidth": {{ functionScript.autoWidth }}
+        });
+    });
+</script>

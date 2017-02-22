@@ -1,0 +1,43 @@
+{% extends 'RichardPQAdminBundle:layout:crud.index.html.twig' %}
+
+{% block content_header_title %}Film Price{% endblock %}
+{% block content_header_title_small %}List{% endblock %}
+
+{% block content_header_breadcrumb %}Administration{% endblock %}
+{% block content_header_breadcrumb_2lv %}Film Price{% endblock %}
+{% block breadcrumb_icon 'tasks' %}
+{% block pageId 'filmprice' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Films Prices</h3>
+                    <a class="btn btn-success pull-right" href="{{ path('film-price_new') }}" >New Film Price</a>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table id="main-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Film</th>
+                            <th>Square Ft Price</th>
+                            <th>French Pane Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+
+                                <td class="element-description">{{ entity.film }}</td>
+                                <td class="element-description">{{ entity.sqftPrice }}</td>
+                                <td class="element-description">{{ entity.frenchPanesPrice }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% set entityName = 'Core Weight By Manufacturer' %}
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+        'form':form,
+        'submit_name':'Add',
+        'entity_route_prefix':'core-weight-manufacturer',
+        'form_title': 'Add New '~entityName
+    }
+%}
+
+    {% block content_header_title %}{{ entityName }}{% endblock %}
+    {% block content_header_title_small %}New{% endblock %}
+
+    {% block content_header_breadcrumb %}Administration{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Core Weight{% endblock %}
+    {% block breadcrumb_icon 'tasks' %}
+    {% block pageId 'coreweight' %}
+
+    {% block custom_stylesheets %}
+        <!-- Select2 -->
+        <link rel="stylesheet" href="{{ asset('bundles/richardpqadmin/plugins/select2/select2.min.css') }}">
+    {% endblock %}
+    {% block custom_jscripts %}
+        <!-- Select2 -->
+        <script src="{{ asset('bundles/richardpqadmin/plugins/select2/select2.full.min.js') }}"></script>
+        <script>
+            //Initialize Select2 Elements
+            $(".select2").select2();
+        </script>
+    {% endblock %}
+{% endembed %}

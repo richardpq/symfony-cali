@@ -1,0 +1,116 @@
+{% import 'RichardPQAdminBundle:macro:macro.alert.html.twig' as macro_message %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block meta_tags %}
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        {% endblock %}
+        {% block stylesheets %}
+            {% include 'RichardPQAdminBundle:Default:stylesheets.html.twig' %}
+        {% endblock %}
+        {% block custom_stylesheets %}
+        {% endblock %}
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ asset('bundles/richardpqadmin/css/AdminLTE.min.css') }}">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="{{ asset('bundles/richardpqadmin/css/skins/_all-skins.min.css') }}">
+
+        {% block head_jscript %}
+            <!-- jQuery 2.2.3 -->
+            <script src="{{ asset('bundles/richardpqadmin/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
+            <!-- jQuery UI 1.11.4 -->
+            <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+            <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+            <script>
+                $.widget.bridge('uibutton', $.ui.button);
+            </script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        {% endblock %}
+        {% block custom_head_script %}
+        {% endblock %}
+    </head>
+    <body class="hold-transition skin-blue sidebar-mini" id="pi-{% block pageId '' %}">
+        <div class="wrapper">
+
+            <header class="main-header">
+                {% block main_header %}
+                    {% include 'RichardPQAdminBundle:widgets:main-header.html.twig' %}
+                {% endblock %}
+            </header>
+
+            <aside class="main-sidebar">
+            {% block main_sidebar %}
+                {{ render(controller('AppBundle:Default:menu')) }}
+            {% endblock %}
+            </aside>
+
+            <div class="content-wrapper">
+
+                <section class="content-header">
+                <h1>
+                    {% block content_header_title '' %}
+                    <small>{% block content_header_title_small '' %}</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li>
+                    <a href="#">
+
+                    <i class="fa fa-{% block breadcrumb_icon '' %}"></i>
+                        {% block content_header_breadcrumb '' %}
+                    </a>
+                    </li>
+
+                    <li>
+                    <a href="#">
+                            {% block content_header_breadcrumb_2lv '' %}
+                    </a>
+                    </li>
+
+                    <li class="active">{% block content_header_breadcrumb_3lv '' %}</li>
+
+                </ol>
+
+                </section>
+                <section class="content">
+                    {% block alert_message %}
+                        {% for type, messages in app.session.flashbag.all() %}
+                            {% for message in messages %}
+                                {{ macro_message.alert(type, message) }}
+                            {% endfor %}
+                        {% endfor %}
+                    {% endblock %}
+                    {% block custom_content_block %}
+                    {% endblock %}
+                    {% block content %}{% endblock %}
+                    {% block modals %}
+                    {% endblock %}
+                </section>
+            </div>
+
+            {#<footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 2.3.6
+                </div>
+                <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+                reserved.
+            </footer>#}
+
+            <aside class="control-sidebar control-sidebar-dark">
+                {% include 'RichardPQAdminBundle:widgets:main-sidebar-right.html.twig' %}
+            </aside>
+
+            <div class="control-sidebar-bg"></div>
+
+        </div>
+        {% block javascripts %}
+            {% include 'RichardPQAdminBundle:Default:buttom-js.html.twig' %}
+        {% endblock %}
+        {% block custom_jscripts %}{% endblock %}
+    </body>
+</html>

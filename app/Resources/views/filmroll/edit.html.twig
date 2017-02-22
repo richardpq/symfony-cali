@@ -1,0 +1,15 @@
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':edit_form,
+'submit_name':'Save',
+'entity_route_prefix':'film-roll-inventory',
+'form_title': 'Edit "'~filmRoll~'"'
+}%}
+
+    {% block content_header_title %}Film Roll{% endblock %}
+    {% block content_header_title_small %}Edit{% endblock %}
+
+    {% block content_header_breadcrumb %}Inventory{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Add/Edit{% endblock %}
+    {% block breadcrumb_icon 'pencil' %}
+    {% block pageId 'filmrollcrud' %}
+{% endembed %}

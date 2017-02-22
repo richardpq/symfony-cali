@@ -1,0 +1,15 @@
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':edit_form,
+'submit_name':'Save',
+'entity_route_prefix':'film-type',
+'form_title': 'Edit "'~entity~'"'
+}%}
+
+    {% block content_header_title %}Film Type{% endblock %}
+    {% block content_header_title_small %}Edit{% endblock %}
+
+    {% block content_header_breadcrumb %}Film Type{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Edit{% endblock %}
+    {% block breadcrumb_icon 'calendar' %}
+    {% block pageId 'filmtype' %}
+{% endembed %}

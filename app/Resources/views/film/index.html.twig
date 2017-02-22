@@ -1,0 +1,48 @@
+{% extends 'RichardPQAdminBundle:layout:crud.index.html.twig' %}
+
+{% block content_header_title %}Film{% endblock %}
+{% block content_header_title_small %}List{% endblock %}
+
+{% block content_header_breadcrumb %}Administration{% endblock %}
+{% block content_header_breadcrumb_2lv %}Film{% endblock %}
+{% block breadcrumb_icon 'tasks' %}
+{% block pageId 'film' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Film</h3>
+                    <a class="btn btn-success pull-right" href="{{ path('film_new') }}" >New Film</a>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table id="main-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Manufacturer</th>
+                            <th>Film Type</th>
+                            <th>Discontinued</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+
+                                <td class="element-description">{{ entity.manufacturer }}</td>
+                                <td class="element-description">{{ entity.filmType }}</td>
+                                <td>{{ entity.discontinued }}</td>
+                                <td>
+                                    {% embed 'RichardPQAdminBundle:widgets:action.buttons.widget.html.twig' with {'entity_route_prefix':'film', 'entity': entity, 'show': true} %}
+                                    {% endembed %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% macro alert(type, message) %}
+<div class="alert alert-{{- type }} alert-dismissible">
+    <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+    {% set title_icon = null %}
+    {% set title = null %}
+
+    {% if type == 'error' %}
+        {% set title_icon = 'ban' %}
+        {% set title = 'Error' %}
+    {% elseif type == 'success' %}
+        {% set title_icon = 'check' %}
+        {% set title = 'Success' %}
+    {% elseif type == 'warning' %}
+        {% set title_icon = 'warning' %}
+        {% set title = 'Warning' %}
+    {% endif %}
+    <h4>
+        <i class="icon fa fa-{{- title_icon -}}"></i>
+        {{ title }}!
+    </h4>
+    {{ message }}
+</div>
+{% endmacro %}

@@ -1,0 +1,16 @@
+{% set entityName = 'Film' %}
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':form,
+'submit_name':'Create',
+'entity_route_prefix':'film',
+'form_title': 'Add New '~entityName
+}%}
+
+    {% block content_header_title %}Film{% endblock %}
+    {% block content_header_title_small %}New{% endblock %}
+
+    {% block content_header_breadcrumb %}Administration{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Film{% endblock %}
+    {% block breadcrumb_icon 'tasks' %}
+    {% block pageId 'film' %}
+{% endembed %}

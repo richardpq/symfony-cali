@@ -1,0 +1,15 @@
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':edit_form,
+'submit_name':'Save',
+'entity_route_prefix':'roll-width',
+'form_title': 'Edit "'~rollWidth~'"'
+}%}
+
+    {% block content_header_title %}Roll Width{% endblock %}
+    {% block content_header_title_small %}Edit{% endblock %}
+
+    {% block content_header_breadcrumb %}Roll Width{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Edit{% endblock %}
+    {% block breadcrumb_icon 'tasks' %}
+    {% block pageId 'rollwidth' %}
+{% endembed %}

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Yaml\Parser;
 
 class DefaultController extends Controller
 {
@@ -13,9 +14,22 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
-        ]);
+        $yaml = new Parser();
+        $value = $yaml->parse(file_get_contents($this->get('kernel')
+                ->getRootDir().'/../src/AppBundle/Resources/config/menu.yml'));
+
+        return $this->render('RichardPQAdminBundle::base.html.twig', ['menus' => $value]);
+    }
+
+    /**
+     * @Route("/menu", name="menu")
+     */
+    public function menuAction()
+    {
+        $yaml = new Parser();
+        $value = $yaml->parse(file_get_contents($this->get('kernel')
+                ->getRootDir().'/../src/AppBundle/Resources/config/menu.yml'));
+
+        return $this->render('RichardPQAdminBundle:widgets:main-sidebar-left.html.twig', ['menus' => $value]);
     }
 }

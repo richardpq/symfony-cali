@@ -1,0 +1,116 @@
+{% extends 'RichardPQAdminBundle::base.html.twig' %}
+
+{% block custom_head_script %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% endblock %}
+
+{% block custom_stylesheets %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('bundles/richardpqadmin/plugins/datatables/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/richardpqadmin/plugins/datatables/dataTables.bootstrap.css') }}">
+    <style>
+        .table tbody tr td {
+            padding: 4px 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block modals %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="delete-modal" aria-labelledby="deleteModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Delete?</h4>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="delete-action">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+{% endblock %}
+
+{% block custom_jscripts %}
+    <!-- DataTables -->
+    <script src="{{ asset('bundles/richardpqadmin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/richardpqadmin/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
+    <script>
+
+        $(function () {
+
+            var numberRows = document.getElementById("main-table").rows.length;
+
+            if (numberRows > 5) {
+
+                $('#main-table').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": true,
+                    "pageLength": {{ dataTable_pageLength is defined ? dataTable_pageLength : 10 }},
+                    "order": {{ dataTable_order is defined ? dataTable_order | raw : "[[0, 'asc']]" | raw }}
+                });
+
+            } else {
+                $('#main-table').DataTable({
+                    "paging": false,
+                    "lengthChange": false,
+                    "info": true,
+                    "searching": false
+                });
+
+            }
+
+
+            $('#main-table').on('click','.delete-row', function(event) {
+                //stop normal behavior
+                event.preventDefault();
+
+                var $tr = $(this).closest('tr');
+                var $url = $(this).attr('href');
+                //var $id = "";
+                var $description = "";
+
+
+
+                $tr.find('td').each(function () {
+                    if ($(this).hasClass('element-description')) {
+                        $description += $(this).text() + " ";
+                    }
+                });
+
+                var $modal = $('#delete-modal');
+                $modal.find('.modal-body p').text($description);
+                //$modal.find('.modal-body .error').empty();
+                $modal.modal('show');
+
+                $modal.find('#delete-action').on('click', function () {
+                    $.post($url)
+                            .done(function () {
+                                $tr.remove();
+                                $modal.modal('hide');
+                                //delete event association to avoid multiples calls
+                                $('#delete-action').off('click');
+
+                            })
+                            .fail(function (xhr) {
+                                //$modal.find('.error').text(xhr.responseText);
+                                $modal.find('.error').text('An error occur');
+                                $('#delete-action').off('click');
+                            });
+                }); //$$modal.find('#delete-action')
+
+            });
+        });
+    </script>
+{% endblock %}
+
+

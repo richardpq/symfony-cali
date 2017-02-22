@@ -1,0 +1,44 @@
+{% extends 'RichardPQAdminBundle:layout:crud.index.html.twig' %}
+
+{% block content_header_title %}Roll Width{% endblock %}
+{% block content_header_title_small %}List{% endblock %}
+
+{% block content_header_breadcrumb %}Administration{% endblock %}
+{% block content_header_breadcrumb_2lv %}Roll Width{% endblock %}
+{% block breadcrumb_icon 'tasks' %}
+{% block pageId 'rollwidth' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Roll Width</h3>
+                    <a class="btn btn-success pull-right" href="{{ path('roll-width_new') }}" >New Roll Width</a>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table id="main-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Width</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in entities %}
+                            <tr>
+
+                                <td class="element-description">{{ entity.width }}</td>
+                                <td>
+                                    {% embed 'RichardPQAdminBundle:widgets:action.buttons.widget.html.twig' with {'entity_route_prefix':'roll-width', 'entity': entity} %}
+                                    {% endembed %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

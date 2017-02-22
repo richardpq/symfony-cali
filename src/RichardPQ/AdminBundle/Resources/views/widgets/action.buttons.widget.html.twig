@@ -1,0 +1,11 @@
+{% block crud_buttons %}
+    {% if show is defined and show %}
+        <a class="btn btn-default" href="{{ path(entity_route_prefix~'_show', { 'id': entity.id }) }}" data-toggle="tooltip" title="Details"><i class="fa fa-eye"></i></a>
+    {% endif %}
+    <a class="btn btn-default" href="{{ path(entity_route_prefix~'_edit', { 'id': entity.id }) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
+    {% if remove is defined and remove %}
+        <a class="btn btn-default delete-row" href="{{ path(entity_route_prefix~'_delete', { 'id': entity.id }) }}" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>
+    {% endif %}
+{% endblock %}
+{% block custom_buttons %}
+{% endblock %}

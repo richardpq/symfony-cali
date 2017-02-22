@@ -1,0 +1,16 @@
+{% set entityName = 'Film Type' %}
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':form,
+'submit_name':'Create',
+'entity_route_prefix':'film-type',
+'form_title': 'Add New '~entityName
+}%}
+
+    {% block content_header_title %}FilmType{% endblock %}
+    {% block content_header_title_small %}New{% endblock %}
+
+    {% block content_header_breadcrumb %}System{% endblock %}
+    {% block content_header_breadcrumb_2lv %}FilmType{% endblock %}
+    {% block breadcrumb_icon 'gears' %}
+    {% block pageId 'filmtype' %}
+{% endembed %}

@@ -1,0 +1,16 @@
+{% set entityName = 'Manufacturer' %}
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+'form':form,
+'submit_name':'Create',
+'entity_route_prefix':'manufacturer',
+'form_title': 'Add New '~entityName
+}%}
+
+    {% block content_header_title %}Manufacturer{% endblock %}
+    {% block content_header_title_small %}New{% endblock %}
+
+    {% block content_header_breadcrumb %}System{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Manufacturer{% endblock %}
+    {% block breadcrumb_icon 'gears' %}
+    {% block pageId 'manufacturer' %}
+{% endembed %}

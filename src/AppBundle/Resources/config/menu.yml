@@ -1,0 +1,46 @@
+Inventory:
+    path: '#'
+    icon_class: 'pencil'
+    label: 'Roll Inventory'
+    submenus:
+        New_Roll:
+            path: 'film-roll_new'
+            label: 'New Roll'
+            id: 'newroll'
+        Add_Edit:
+            path: 'film-roll-inventory_index'
+            label: 'Inventory'
+            id: 'filmrollcrud'
+        Account_roll:
+            path: 'film-roll_account'
+            label: 'Set Cost $'
+            id: 'filmrollaccount'
+Administration:
+    path: '#'
+    icon_class: 'tasks'
+    submenus:
+        Core_Weight:
+            path: 'core-weight-manufacturer_index'
+            label: 'Core Weight'
+            id: 'coreweight'
+        Film_Type:
+            path: 'film-type_index'
+            label: 'Film Type'
+            id: 'filmtype'
+        Films:
+            path: 'film_index'
+            id: 'film'
+        Film_category:
+            path: 'film-category_index'
+            label: 'Film Category'
+            id: 'filmcategory'
+        Film_price:
+            path: 'film-price_index'
+            label: 'Film Price'
+        Manufacturer:
+            path: 'manufacturer_index'
+            id: 'manufacturer'
+        Roll_width:
+            path: 'roll-width_index'
+            id: 'rollwidth'
+            label: 'Roll Width'

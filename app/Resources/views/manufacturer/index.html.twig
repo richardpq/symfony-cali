@@ -1,0 +1,50 @@
+{% extends 'RichardPQAdminBundle:layout:crud.index.html.twig' %}
+
+{% block content_header_title %}Manufacturer{% endblock %}
+{% block content_header_title_small %}List{% endblock %}
+
+{% block content_header_breadcrumb %}System{% endblock %}
+{% block content_header_breadcrumb_2lv %}Manufacturer{% endblock %}
+{% block breadcrumb_icon 'gears' %}
+{% block pageId 'manufacturer' %}
+
+{% block content %}
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">List of Manufacturer</h3>
+                    <a class="btn btn-success pull-right" href="{{ path('manufacturer_new') }}" >New Manufacturer</a>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table id="main-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for manufacturer in manufacturers %}
+                            <tr>
+
+                                <td class="element-description">{{ manufacturer.description }}</td>
+                                <td>
+                                    {% embed 'RichardPQAdminBundle:widgets:action.buttons.widget.html.twig' with {'entity_route_prefix':'manufacturer', 'entity': manufacturer} %}
+                                    {% endembed %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

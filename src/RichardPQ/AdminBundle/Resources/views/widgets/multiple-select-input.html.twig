@@ -1,0 +1,7 @@
+{% for entity in entities %}
+    <div class="form-group"  style="display:none" id="msi-{{ inputPrefix ~ "-" ~ entity.id }}">
+        <label class="control-label">{{ entity }}</label>
+        <input class="form-control" type="{{ inputType }}" name="{{ formName ~ "["~inputPrefix~"]["}}{{entity.id}}{{ "]" }}">
+        <div class="help-block with-errors"></div>
+    </div>
+{% endfor %}

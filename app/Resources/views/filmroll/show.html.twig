@@ -1,0 +1,230 @@
+{% extends 'RichardPQAdminBundle::base.html.twig' %}
+
+{% set p_id ='' %}
+{% set h_bread_c_title = '' %}
+{% set h_bread_c_2_title = '' %}
+{% set route_prefix = '' %}
+
+{% if inventory %}
+    {% set p_id = 'filmrollcrud' %}
+    {% set h_bread_c_2_title = 'Add/Edit Roll' %}
+    {% set route_prefix = 'film-roll-inventory' %}
+{% else %}
+    {% set p_id = 'filmrollmanage' %}
+    {% set h_bread_c_2_title = 'Chk-In/Out Transfer' %}
+    {% set route_prefix = 'film-roll_manage' %}
+{% endif %}
+
+{% block content_header_title %}Roll # {{ filmRoll.id }}{% endblock %}
+{% block content_header_title_small %}Information{% endblock %}
+
+{% block content_header_breadcrumb %}Inventory{% endblock %}
+{% block content_header_breadcrumb_2lv %}{{ h_bread_c_2_title }}{% endblock %}
+{% block breadcrumb_icon 'pencil' %}
+{% block pageId %}
+    {{- p_id -}}
+{% endblock%}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"> Film {{ filmRoll.film }}</h3>
+                    <a class="btn btn-success pull-right" href="{{ path(route_prefix~'_index') }}" >Back to Film Roll List</a>
+                </div><!-- /.box-header -->
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Current Roll Info</h3>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>Roll #</dt>
+                        <dd>{{ filmRoll.id }}</dd>
+                        <dt>Office</dt>
+                        <dd>{{ filmRoll.actualOffice }}</dd>
+                        <dt>Current Weight</dt>
+                        <dd>{{ filmRoll.currentWeight }}</dd>
+                        <dt>Available Square Feet</dt>
+                        <dd>{{ filmRoll.actualSqFt }}</dd>
+                        <dt>Available Linear Feet</dt>
+                        <dd>{{ filmRoll.actualLinearFeet }}</dd>
+                        <dt>Status</dt>
+                        <dd>{{ filmRoll.isCheckedOut ? 'OUT' : 'IN' }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Print Label</h3>
+                </div>
+                <div class="box-body text-center">
+                    <a class="btn btn-success" href="{{ path('film-roll_print_label', {'id':filmRoll.id}) }}" target="_blank" >Print Label</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">General Info</h3>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>Film</dt>
+                        <dd>{{ filmRoll.film }}</dd>
+                        <dt>Width</dt>
+                        <dd>{{ filmRoll.rollWidth }}</dd>
+                        <dt>Lot</dt>
+                        <dd>{{ filmRoll.lot }}</dd>
+                        <dt>Cost</dt>
+                        <dd>{{ filmRoll.cost ? (filmRoll.cost | localizedcurrency('USD')) ~ " ($" ~filmRoll.costPerSqFt~ "/sqft)" : '' }}</dd>
+                        <dt>Added At</dt>
+                        <dd>{% if filmRoll.addedAt %}{{ filmRoll.addedAt|date('Y-m-d H:i:s') }}{% endif %}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Original Info</h3>
+                </div>
+                <div class="box-body">
+                    <dl class="dl-horizontal">
+                        <dt>Linear Feet</dt>
+                        <dd>{{ filmRoll.linearFt }}</dd>
+                        <dt>Core Weight</dt>
+                        <dd>{{ filmRoll.coreWeight }}</dd>
+                        <dt>Full Weight</dt>
+                        <dd>{{ filmRoll.fullWeight }}</dd>
+                        <dt>Film Factor</dt>
+                        <dd>{{ filmRoll.filmFactor }}</dd>
+                        <dt>Total Square Feet</dt>
+                        <dd>{{ filmRoll.totalSqFt }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Checkout/Checkin</h3>
+                </div>
+                <div class="box-body">
+                    <table id="show-table" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Est #</th>
+                                <th>Checkout At</th>
+                                <th>Wgt Out</th>
+                                <th>Sq. Ft Out</th>
+                                <th>Checkin At</th>
+                                <th>Wgt In</th>
+                                <th>Sq. Ft In</th>
+                                <th>Sq. Ft. Used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for checkout in filmRoll.filmCheckouts %}
+                                <tr>
+                                    <td>{{ checkout.estimate }}</td>
+                                    <td>{{ checkout.checkoutAt |date('Y-m-d H:i:s') }}</td>
+                                    <td>{{ checkout.weightOut }}</td>
+                                    <td>{{ checkout.sqFtOut }}</td>
+                                    <td>{% if checkout.checkinAt %}{{ checkout.checkinAt | date('Y-m-d H:i:s') }}{% endif %}</td>
+                                    <td>{{ checkout.weightIn }}</td>
+                                    <td>{{ checkout.sqFtIn }}</td>
+                                    <td>{{ checkout.sqFtUsed|number_format(0) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Transfer Info</h3>
+                </div>
+                <div class="box-body">
+                    <table id="show-table-transfer" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>From Office</th>
+                                <th>To Office</th>
+                                <th>Transfer Date</th>
+                                <th>Sq. Ft</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for transfer in filmRoll.filmTransfers %}
+                            <tr>
+                                <td>{{ transfer.fromOffice }}</td>
+                                <td>{{ transfer.toOffice }}</td>
+                                <td>{{ transfer.transferDate | date('Y-m-d H:i:s') }}</td>
+                                <td>{{ transfer.sqFt }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <i class=""></i>
+                    <h3 class="box-title">Adjusts</h3>
+                </div>
+                <div class="box-body">
+                    <table id="show-table" class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Adjust At</th>
+                            <th>Weight Out</th>
+                            <th>Sq. Ft Out</th>
+                            <th>Weight In</th>
+                            <th>Sq. Ft In</th>
+                            <th>Sq. Ft. Used</th>
+                            <th>Notes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for adjust in filmRoll.filmRollAdjusts %}
+                            <tr>
+                                <td>{{ adjust.adjustDate |date('Y-m-d H:i:s') }}</td>
+                                <td>{{ adjust.weightOut }}</td>
+                                <td>{{ adjust.sqFtOut }}</td>
+                                <td>{{ adjust.weightIn }}</td>
+                                <td>{{ adjust.sqFtIn }}</td>
+                                <td>{{ adjust.sqFtUsed|number_format(0) }}</td>
+                                <td>{{ adjust.notes }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

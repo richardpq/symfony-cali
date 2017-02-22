@@ -1,0 +1,98 @@
+
+#Clientes:
+#    path: '#'
+#    icon_class: 'dashboard'
+##    label: 'Clientes'
+#    submenus:
+#        Consulta:
+#            path: '#'
+#            #label: 'Consulta'
+#            sub_submenus:
+#                Titulares:
+#                    path: 'cliente'
+#                    #label: ''
+#                Beneficiarios:
+#                    path: 'personaporgrupofamiliar'
+#                    #label: ''
+#        Registro:
+#            path: 'cliente_new'
+##           label: ''
+#        Historico:
+#            path: 'historicoafiliacion'
+#            label: 'Histórico de afiliacion'
+#        ReportesGenerales:
+#            path: 'cliente_reportes_generales'
+#            label: 'Reportes Generales'
+#Cobranza:
+#    path: '#'
+#    icon_class: 'files-o'
+#    menunew: 'new'
+#    submenus:
+#        Domiciliada:
+#            path: 'cobranzadomiciliada'
+#        Reportes:
+#            path: 'cobranza_reportes'
+#            submenus_submenu:
+#                            Consulta2:
+#                                path: 'subsubmenu'
+#                                label: 'subsubmenu'
+#Servicios:
+#    path: '#'
+#    icon_class: 'th'
+##   label: ''
+#    submenus:
+#        Consulta:
+#            path: 'servicio'
+#        Emision:
+#            path: 'cliente'
+#            label: 'Emisión'
+#        ReportesGenerales:
+#            path: 'servicio_reportes_generales'
+#            label: 'Reportes Generales'
+#Facturas:
+#    path: '#'
+#    icon_class: 'pie-chart'
+##   label: ''
+#    submenus:
+#        Consulta:
+#            path: 'factura'
+#        Emision:
+#            path: 'factura_new'
+#            label: 'Emisión'
+#        CargaLote:
+#            path: 'factura_lote'
+#            label: 'Carga en Lote'
+#        ReportesGenerales:
+#            path: 'factura_reportes_generales'
+#            label: 'Reportes Generales'
+#Pagos:
+#    path: '#'
+#    icon_class: 'book'
+##   label: ''
+#    numberSubmenus: '3'
+#    submenus:
+#        Consulta:
+#            path: 'pago'
+#        Emision:
+#            path: 'pago_new'
+#            label: 'Emisión'
+#        ReportesGenerales:
+#            path: 'pago_reportes_generales'
+#            label: 'Reportes Generales'
+#
+#Email:
+#    path: '#'
+#    icon_class: 'envelope'
+##   label: ''
+#    submenus:
+#        Resultados:
+#            path: 'servicio_interno'
+#
+#Configuracion_Mantenimiento:
+#    path: '#'
+#    icon_class: 'calendar'
+#    label: 'Mantenimiento'
+#    submenus:
+#        Proveedores:
+#            path: 'proveedor'
+#            #label: 'Exámenes'

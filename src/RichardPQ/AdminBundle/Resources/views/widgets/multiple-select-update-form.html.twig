@@ -1,0 +1,13 @@
+{% for entity in entities %}
+    {% set description = attribute(entity, attDescription) %}
+    <div class="contact-group">
+        <p class="control-label" style="font-weight: bold">{{ description }}</p>
+        <div class="input-group"  id="msi-{{ inputPrefix ~ "-" ~ entity.id }}">
+            <input class="form-control" type="{{ inputType }}" name="{{ formName ~ "["~inputPrefix~"]["}}{{entity.id}}{{ "]" }}" value="{{ attribute(entity, attValue) }}">
+            <span class="input-group-btn">
+                <button class="btn btn-danger btn-flat contact-remove" type="button">X</button>
+            </span>
+        </div>
+        <br>
+    </div>
+{% endfor %}

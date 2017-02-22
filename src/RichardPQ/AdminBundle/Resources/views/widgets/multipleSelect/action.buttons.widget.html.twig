@@ -1,0 +1,11 @@
+<div class="box-body">
+    {% block rud_buttons %}
+        {% if show is defined and show %}
+            <a class="btn btn-app" href="{{ path(entity_route_prefix~'_show', { 'id': entity.id }) }}"><i class="fa fa-eye fa-3x"></i></a>
+        {% endif %}
+        <a class="btn btn-app" href="{{ path(entity_route_prefix~'_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o"></i></a>
+        <a class="btn btn-app delete-row" href="{{ path(entity_route_prefix~'_delete', { 'id': entity.id }) }}"><i class="fa fa-remove"></i></a>
+    {% endblock %}
+    {% block custom_buttons %}
+    {% endblock %}
+</div>

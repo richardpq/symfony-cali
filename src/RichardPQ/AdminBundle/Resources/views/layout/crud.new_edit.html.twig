@@ -1,0 +1,29 @@
+{% extends 'RichardPQAdminBundle::base.html.twig' %}
+
+{% form_theme form 'form/fields.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-title">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ form_title }}</h3>
+                    <a class="btn btn-success pull-right" href="{{ path(entity_route_prefix~'_index') }}">Back to List</a>
+                </div>
+            </div>
+        </div>
+    <div class="col-xs-12">
+        <div class="box box-primary">
+            {% block form %}
+                <form role="form" method="post" novalidate="novalidate" data-toggle="validator">
+                    <div class="box-body">
+                        {{ form_widget(form) }}
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-primary" type="submit">{{ submit_name }}</button>
+                    </div>
+                </form>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

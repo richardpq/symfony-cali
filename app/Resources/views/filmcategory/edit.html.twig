@@ -1,0 +1,15 @@
+{% embed 'RichardPQAdminBundle:layout:crud.new_edit.html.twig' with {
+    'form':edit_form,
+    'submit_name':'Save',
+    'entity_route_prefix':'film-category',
+    'form_title': 'Edit "'~filmCategory~'"'
+}%}
+
+    {% block content_header_title %}Film Category{% endblock %}
+    {% block content_header_title_small %}Edit{% endblock %}
+
+    {% block content_header_breadcrumb %}Administration{% endblock %}
+    {% block content_header_breadcrumb_2lv %}Film Category{% endblock %}
+    {% block breadcrumb_icon 'tasks' %}
+    {% block pageId 'filmcategory' %}
+{% endembed %}

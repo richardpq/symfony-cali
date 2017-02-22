@@ -1,0 +1,96 @@
+    <!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+            <div class="pull-left image">
+                <img src="{{ asset('bundles/richardpqadmin/img/user0-204x204.png') }}" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+                <p>John Doe</p>
+                {#<a href="#"><i class="fa fa-circle text-success"></i> Online</a>#}
+            </div>
+        </div>
+    {#
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+        </form>#}
+        <!-- /.search form -->
+        <!-- ------------------------------------------------------------------------------------------------------ -->
+
+    <ul class="sidebar-menu">
+        <li class="header">MAIN NAVIGATION</li>
+        {% for key, menu in menus %}
+            {% set can_access_menu = false %}
+            {% if menu.roles is defined %}
+                {% for role in app.user.roles %}
+                    {% if role in menu.roles %}
+                        {% set can_access_menu = true %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {% set can_access_menu = true %}
+            {% endif %}
+            {% if can_access_menu %}
+                <li class="treeview">
+                    <a href="{% if menu.path == "#" or '' %} /# {% else %} {{ path(menu.path) }} {% endif %}">
+                        <i class="fa fa-{{ menu.icon_class }}"></i>
+                        <span>{% if menu.label is defined %} {{ menu.label }} {% else %} {{ key }} {% endif %}</span>
+
+                        <span class="pull-right-container">
+                        {% if menu.submenus is defined %}<i class="fa fa-angle-left pull-right"></i>{% endif %}
+                        {% if menu.numberSubmenus is defined %}<span class="label label-primary pull-right"> {{ menu.numberSubmenus }} </span> {% else %}  {% endif %}
+                        {% if menu.menunew is defined %}<small class="label pull-right bg-green"> {{ menu.menunew }} </small> {% else %}  {% endif %}
+                        </span>
+
+                    </a>
+                    {% if menu.submenus is defined %}
+                        <ul class="treeview-menu">
+                            {% for submenu_key, submenu in menu.submenus %}
+                                {% set can_access_sub_menu = false %}
+                                {% if submenu.roles is defined %}
+                                    {% for role in app.user.roles %}
+                                        {% if role in submenu.roles %}
+                                            {% set can_access_sub_menu = true %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% set can_access_sub_menu = true %}
+                                {% endif %}
+                                {% if  can_access_sub_menu %}
+                                    <li>
+                                        <a href="{% if submenu.path == "#" or '' %} /# {% else %} {{ url(submenu.path) }} {% endif %}" {% if submenu.id is defined %} id="mn-{{- submenu.id -}}" {% endif %} >
+                                        <i class="fa fa-circle-o"></i> {% if submenu.label is defined %} {{ submenu.label }} {% else %} {{ submenu_key }} {% endif %}
+                                        {% if submenu.sub_submenus is defined %}
+                                        <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                        {% endif %}
+                                        </a>
+                                        {% if submenu.sub_submenus is defined %}
+                                            <ul class="treeview-menu">
+                                                {% for submenu_submenus_key, submenu_submenus in  submenu.sub_submenus %}
+                                                <li>
+                                                    <a href="{{ submenu_submenus.path }}">
+                                                    <i class="fa fa-circle-o"></i> {% if submenu_submenus.label is defined %} {{ submenu_submenus.label }} {% else %} {{ submenu_submenus_key }} {% endif %}</a>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</section>
