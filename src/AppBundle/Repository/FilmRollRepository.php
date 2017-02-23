@@ -14,42 +14,9 @@ class FilmRollRepository extends EntityRepository
         $qb = $manager->createQueryBuilder();
 
         $qb
-            ->select('fr, f, o, fc, ft, fa')
+            ->select('fr, f')
             ->from('AppBundle:FilmRoll', 'fr')
             ->innerJoin('fr.film', 'f')
-            ->innerJoin('fr.office', 'o')
-            ->leftJoin('fr.filmTransfers', 'ft')
-            ->leftJoin('fr.filmRollAdjusts', 'fa')
-            ->leftJoin('fr.filmCheckouts', 'fc')
-        ;
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function getRollsFromEstimate(Estimate $estimate)
-    {
-        $filmsIds = $estimate->getIdFilmsRelated();
-
-        if (empty($filmsIds)) {
-            return null;
-        }
-
-        $manager = $this->getEntityManager();
-        $qb = $manager->createQueryBuilder();
-
-        $qb
-            ->select('fr, f, o, fc, frt, fa, rw, ft')
-            ->from('AppBundle:FilmRoll', 'fr')
-            ->innerJoin('fr.film', 'f')
-            ->innerJoin('f.filmType', 'ft')
-            ->innerJoin('fr.office', 'o')
-            ->innerJoin('fr.rollWidth', 'rw')
-            ->leftJoin('fr.filmCheckouts', 'fc')
-            ->leftJoin('fr.filmTransfers', 'frt')
-            ->leftJoin('fr.filmRollAdjusts', 'fa')
-            ->where($qb->expr()->in('f.id', $filmsIds))
-            ->andWhere('fr.currentWeight > 0')
-            ->orderBy('fr.office')
         ;
 
         return $qb->getQuery()->getResult();

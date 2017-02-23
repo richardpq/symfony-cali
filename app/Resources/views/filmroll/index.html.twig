@@ -58,17 +58,13 @@
                         <tr>
                             <th>Roll #</th>
                             <th>Film</th>
-                            <th>Office</th>
                             {% if not account %}
                                 <th>Width</th>
                                 <th>Current Wght.</th>
                             {% endif %}
-                            <th>SqFt Avail.</th>
                             <th>Cost/SqFt</th>
-                            <th>L. Ft Avail.</th>
                             <th>Current $</th>
                             <th>Lot</th>
-                            <th>Stat.</th>
                             {% if account %}
                                 <th>Orig. Cost</th>
                             {% endif %}
@@ -80,17 +76,14 @@
                             <tr>
                                 <td class="roll-id">{{ entity.id }}</td>
                                 <td class="element-description">{{ entity.film }}</td>
-                                <td class="td-office-name">{{ entity.actualOffice }}</td>
                                 {% if not account %}
                                     <td>{{ entity.rollWidth }}</td>
                                     <td class="td-current-weight">{{ entity.currentWeight }}</td>
                                 {% endif %}
-                                <td class="actual-sqft">{{ entity.actualSqFt }}</td>
                                 <td class="sqft-cost">{{ entity.cost ? entity.costPerSqFt | localizedcurrency('USD')  : '' }}</td>
-                                <td>{{ entity.actualLinearFeet }}</td>
                                 <td class="inventory-value">{{ entity.cost ? (entity.costPerSqFt * entity.actualSqFt) | localizedcurrency('USD')  : '' }}</td>
                                 <td>{{ entity.lot }}</td>
-                                <td class="film-roll-status {{- entity.isCheckedOut ? ' film-roll-status-out': '' -}}">{{ entity.isCheckedOut ? 'OUT' : 'IN' }}</td>
+
                                 {% if account %}
                                     <td class="original-cost">{{ entity.cost ? entity.cost | localizedcurrency('USD') : '' }}</td>
                                 {% endif %}
@@ -98,44 +91,15 @@
                                     {% if inventory %}
                                         {% embed 'RichardPQAdminBundle:widgets:action.buttons.widget.html.twig' with {'entity_route_prefix':route_prefix, 'entity': entity, 'show': true} %}
                                             {% set disabled = "" %}
-                                            {% if "ROLE_OFFICE_MANAGER" in app.user.roles and entity.actualOffice.id != app.user.office.id %}
-                                                {% set disabled = ' disabled' %}
-                                            {% endif %}
+
                                             {% block crud_buttons %}
                                                 <a class="btn btn-default" href="{{ path(entity_route_prefix~'_show', { 'id': entity.id }) }}" data-toggle="tooltip" title="Details"><i class="fa fa-eye"></i></a>
-                                                {% if  not entity.hasBeenUsed %}
-                                                    <a class="btn btn-default{{ disabled }}" href="{{ path(entity_route_prefix~'_edit', { 'id': entity.id }) }}" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-square-o"></i></a>
-                                                    <a class="btn btn-default delete-row{{ disabled }}" href="{{ path(entity_route_prefix~'_delete', { 'id': entity.id }) }}" data-toggle="tooltip" title="Delete"><i class="fa fa-remove"></i></a>
-                                                {% endif %}
-
-                                            {% endblock %}
-                                            {% block custom_buttons %}
-                                                {% if entity.isCheckedOut and not entity.isEmpty %}
-                                                    <a class="btn btn-default film-checkout checkin{{ disabled }}" href="{{ path('film-checkout-checkin', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-in"><i class="fa fa-sign-in"></i></a>
-                                                    <a class="btn btn-default film-checkout checkout{{ disabled }}" href="{{ path('film-checkout-checkout', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-out" style="display: none"><i class="fa fa-sign-out"></i></a>
-                                                {% elseif entity.actualLinearFeet > 0 and entity.actualSqFt > 0 %}
-                                                    <a class="btn btn-default film-checkout checkin{{ disabled }}" href="{{ path('film-checkout-checkin', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-in" style="display: none"><i class="fa fa-sign-in"></i></a>
-                                                    <a class="btn btn-default film-checkout checkout{{ disabled }}" href="{{ path('film-checkout-checkout', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-out"><i class="fa fa-sign-out"></i></a>
-                                                    <a class="btn btn-default film-transfer" href="{{ path('film-transfer_roll', { 'id': entity.id }) }}" data-toggle="tooltip" title="Transfer"><i class="fa fa-exchange"></i></a>
-                                                    <a class="btn btn-default film-adjust{{ disabled }}" href="{{ path('film-roll-adjust-adjust', { 'id': entity.id }) }}" data-toggle="tooltip" title="Adjust"><i class="fa fa-wrench"></i></a>
-                                                {% endif %}
                                             {% endblock %}
                                         {% endembed %}
                                     {% elseif manage %}
                                         {% embed 'RichardPQAdminBundle:widgets:action.buttons.widget.html.twig' with {'entity_route_prefix':route_prefix, 'entity': entity} %}
                                             {% block crud_buttons %}
                                                 <a class="btn btn-default" href="{{ path(entity_route_prefix~'_show', { 'id': entity.id }) }}" data-toggle="tooltip" title="Details"><i class="fa fa-eye"></i></a>
-                                            {% endblock %}
-                                            {% block custom_buttons %}
-                                                {% if entity.isCheckedOut and not entity.isEmpty %}
-                                                    <a class="btn btn-default film-checkout checkin" href="{{ path('film-checkout-checkin', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-in"><i class="fa fa-sign-in"></i></a>
-                                                    <a class="btn btn-default film-checkout checkout" href="{{ path('film-checkout-checkout', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-out" style="display: none"><i class="fa fa-sign-out"></i></a>
-                                                {% elseif entity.actualLinearFeet > 0 and entity.actualSqFt > 0 %}
-                                                    <a class="btn btn-default film-checkout checkin" href="{{ path('film-checkout-checkin', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-in" style="display: none"><i class="fa fa-sign-in"></i></a>
-                                                    <a class="btn btn-default film-checkout checkout" href="{{ path('film-checkout-checkout', { 'id': entity.id }) }}" data-toggle="tooltip" title="Check-out"><i class="fa fa-sign-out"></i></a>
-                                                    <a class="btn btn-default film-transfer" href="{{ path('film-transfer_roll', { 'id': entity.id }) }}" data-toggle="tooltip" title="Transfer"><i class="fa fa-exchange"></i></a>
-                                                    <a class="btn btn-default film-adjust" href="{{ path('film-roll-adjust-adjust', { 'id': entity.id }) }}" data-toggle="tooltip" title="Adjust"><i class="fa fa-wrench"></i></a>
-                                                {% endif %}
                                             {% endblock %}
                                         {% endembed %}
                                     {% elseif account %}
@@ -158,87 +122,7 @@
 
 {% block modals %}
     {{ parent() }}
-    <div class="modal fade" role="dialog" id="checkout-modal" aria-labelledby="checkoutModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Checkout Roll <span class="roll-info"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="checkout-select">Select Estimate #:</label>
-                        <select id="checkout-select" class="select2" style="width: 100%">
-                            {% for estimate in estimates %}
-                                <option value="{{ estimate.id }}">#{{ estimate.id }} ({{ estimate.jobName }})</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="checkout-action">Checkout</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="checkin-modal" aria-labelledby="checkinModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Checkin Roll <span class="roll-info"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group" id="checkin-weight-in">
-                        <label for="checkin-weight">Weight In:</label>
-                        <input type="text" id="checkin-weight" name="checkin-weight" class="form-control">
-                        <div class="help-block with-errors weight-in-error"></div>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="empty" id="checkin-empty"> Empty?
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="checkin-action">Checkin</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="transfer-modal" aria-labelledby="transferModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Transfer Roll <span class="roll-info"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <dl class="dl-horizontal">
-                        <dt>From Office:</dt>
-                        <dd id="dd-from-office"></dd>
-                        <div class="form-group">
-                            <dt><label for="to-office-select">To Office:</label></dt>
-                            <dd>
-                                <select id="to-office-select" class="select2" name="to-office" style="width: 100%">
-                                    {% for office in offices %}
-                                        <option value="{{ office.id }}">{{ office }}</option>
-                                    {% endfor %}
-                                </select>
-                            </dd>
-                        </div>
-                    </dl>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="transfer-action">Transfer</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" tabindex="-1" role="dialog" id="cost-modal" aria-labelledby="costModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -259,68 +143,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="print-label-modal" aria-labelledby="print-labelModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Print Label Roll <span class="roll-info"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <dl class="dl-horizontal">
-                        <dt>Roll #:</dt>
-                        <dd id="dd-label-roll"></dd>
-                        <dt>Manufacturer:</dt>
-                        <dd id="dd-label-manufacturer"></dd>
-                        <dt>Name:</dt>
-                        <dd id="dd-label-name"></dd>
-                        <dt>Width:</dt>
-                        <dd id="dd-label-width"></dd>
-                        <dt>Weight:</dt>
-                        <dd id="dd-label-weight"></dd>
-                        <dt>Linear Ft:</dt>
-                        <dd id="dd-label-linear"></dd>
-                        <dt>Square Ft:</dt>
-                        <dd id="dd-label-square"></dd>
-                    </dl>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                    <a class="btn btn-primary" id="print-label-action" href="{{ path('film-roll_print_label') }}" target="_blank">Print</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" tabindex="-1" role="dialog" id="adjust-modal" aria-labelledby="adjustModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Adjust Roll <span class="roll-info"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group" id="adjust-weight">
-                        <label for="adjust-weight-in">Weight In:</label>
-                        <input type="text" id="adjust-weight-in" name="adjust-weight-in" class="form-control">
-                        <div class="help-block with-errors adjust-weight-in-error"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="adjust-notes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Notes:</label>
-                        <textarea id="adjust-notes" name="adjust-notes" rows="3" cols="60" class="form-control"></textarea>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="empty" id="adjust-empty"> Empty?
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="adjust-action">Adjust</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
 {% endblock %}
 
 {% block custom_jscripts %}

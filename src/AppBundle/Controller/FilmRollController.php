@@ -45,16 +45,12 @@ class FilmRollController extends Controller
         }
 
         $filmRolls = $em->getRepository('AppBundle:FilmRoll')->findAll();
-        $offices = $em->getRepository('AppBundle:Office')->findAll();
-        $estimates = $em->getRepository('AppBundle:Estimate')->findAll();
 
         return $this->render('filmroll/index.html.twig', array(
             'entities' => $filmRolls,
-            'offices' => $offices,
             'inventory' => $inventory,
             'manage' => $manage,
             'account' => $account,
-            'estimates' => $estimates
         ));
     }
 

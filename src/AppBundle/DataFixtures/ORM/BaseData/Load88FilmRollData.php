@@ -39,8 +39,6 @@ class Load88FilmRollData extends AbstractFixture implements OrderedFixtureInterf
         $rows = $stmt->fetchAll();
 
         foreach ($rows as $row) {
-            $rowOffice = trim($row['InventoryLocation']);
-            $resultOffice =  $rowOffice == 'Los Angeles' ? 'Van Nuys' : $rowOffice;
             $row['Product'] = str_ireplace('Discontinued', '', $row['Product']);
             $row['Product'] = str_ireplace('Graffitigard', 'Graffiti', $row['Product']);
             $row['Product'] = str_ireplace('MIL SEC.', 'Mil Security', $row['Product']);
@@ -50,12 +48,6 @@ class Load88FilmRollData extends AbstractFixture implements OrderedFixtureInterf
             //$row['FilmType'] = str_replace('-', '', $row['FilmType']);
             $row['Product'] = trim($row['Product']);
             $row['Product'] = trim($row['Product'], '-');
-
-            try {
-                $office = $this->getReference('office-'.str_replace(' ', '-', strtolower($resultOffice)));
-            } catch (\Exception $e) {
-                $office = null;
-            }
 
             try {
                 $rollWidth = $this->getReference('roll-width-'.str_replace(' ', '-', strtolower(trim($row['Width']))));
@@ -70,7 +62,7 @@ class Load88FilmRollData extends AbstractFixture implements OrderedFixtureInterf
                 $film = null;
             }
 
-            if ($office && $rollWidth && $film && $row['LinearFeet'] > 0) {
+            if ($rollWidth && $film && $row['LinearFeet'] > 0) {
                 $filmRoll = new FilmRoll();
                 $filmRoll
                     ->setId($row['ID'])
@@ -80,7 +72,6 @@ class Load88FilmRollData extends AbstractFixture implements OrderedFixtureInterf
                     ->setFilmFactor($row['FilmFactor'])
                     ->setLot($row['Lot'])
                     ->setTotalSqFt($row['SqFt'])
-                    ->setOffice($office)
                     ->setRollWidth($rollWidth)
                     ->setFilm($film)
                 ;

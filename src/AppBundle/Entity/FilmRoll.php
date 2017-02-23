@@ -14,12 +14,13 @@ use AppBundle\Utils\FilmRollCalculus;
  */
 class FilmRoll
 {
+    //* @ORM\GeneratedValue(strategy="AUTO")
+
     /**
      * @var int $id
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -171,6 +172,13 @@ class FilmRoll
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
